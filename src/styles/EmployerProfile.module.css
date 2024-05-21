@@ -1,0 +1,40 @@
+.profile__name {
+  margin-bottom: 16px;
+  font-size: clamp(20px, 2vw, 40px);
+  line-height: clamp(22px, calc(2vw + 2px), 42px);
+}
+
+.profile__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: clamp(18px, 1.8vw, 36px);
+  line-height: clamp(20px, calc(1.8vw + 2px), 38px);
+}
+
+.profile__firstPlace {
+  color: #ffd700;
+}
+
+.profile__secondPlace {
+  color: #c0c0c0;
+}
+
+.profile__thirdPlace {
+  color: #9f2b0483;
+}
+
+.profile__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 50%;
+}
+
+@media (max-width: 1000px) {
+  .profile__buttons {
+    max-width: none;
+    width: 100%;
+  }
+}

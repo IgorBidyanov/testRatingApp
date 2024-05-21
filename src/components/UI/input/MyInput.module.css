@@ -1,0 +1,46 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.labelText {
+  text-indent: 12px;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+
+.inputWrapper.error {
+  border-color: #ec4e4e;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 32px 12px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 18px;
+  outline: none;
+  border: none;
+}
+
+.showPassBtn {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transform: translateY(-50%);
+}

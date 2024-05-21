@@ -1,0 +1,13 @@
+.newEmployer__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(708px, 70%, 1000px);
+  gap: 16px;
+}
+
+@media (max-width: 756px) {
+  .newEmployer__form {
+    width: 100%;
+  }
+}

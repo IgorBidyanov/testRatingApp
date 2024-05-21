@@ -1,0 +1,56 @@
+.card {
+  padding: 24px 0;
+  width: calc((100% - (var(--list-gap) * var(--offsets))) / (var(--offsets) + 1));
+  border-radius: 8px;
+  border: 1px solid #283b87;
+  background-color: #aec8ee;
+  cursor: pointer;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #000;
+  padding: 0 24px 12px;
+}
+
+.card__firstPlace {
+  background-color: #ffd700;
+  border-color: #695900;
+}
+
+.card__secondPlace {
+  background-color: #c0c0c0;
+  border-color: #828282;
+}
+
+.card__thirdPlace {
+  background-color: #9f2b0483;
+  border-color: #78200383;
+}
+
+.card__headerText {
+  font-size: 24px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 12px 24px 0;
+}
+
+.card__bodyItem {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+@media (max-width: 374px) {
+  .card__bodyItem {  
+    font-size: 14px;
+    line-height: 16px;
+  }
+}

@@ -1,0 +1,41 @@
+select {
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  -ms-appearance:none;
+  appearance:none;
+  outline:0;
+  box-shadow:none;
+  border:0!important;
+  background: #fff;
+  background-image: none;
+  flex: 1;
+  padding: 0 .5em;
+  color: #000;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: 'Open Sans', sans-serif;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 44px;
+  line-height: 3;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #fff;
+  cursor: pointer;
+  pointer-events: none;
+}

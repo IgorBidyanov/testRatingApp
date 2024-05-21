@@ -1,0 +1,25 @@
+.employersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--list-gap);
+
+  --offsets: 3;
+}
+
+@media (max-width: 1330px) {
+  .employersList {  
+    --offsets: 2;
+  }
+}
+
+@media (max-width: 1330px) {
+  .employersList {  
+    --offsets: 1;
+  }
+}
+
+@media (max-width: 680px) {
+  .employersList {  
+    --offsets: 0;
+  }
+}
