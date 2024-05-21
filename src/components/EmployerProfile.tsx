@@ -49,7 +49,7 @@ const EmployerProfile: React.FC = () => {
         payload[`${item.id}/rating`] = +item.rating - 1;
       }
 
-      await dispatch(updateEmployersRatingAction(payload)).then(() => navigation('/'))
+      await dispatch(updateEmployersRatingAction(payload)).then(() => navigation('/', { replace: true }))
     }
   }
 
