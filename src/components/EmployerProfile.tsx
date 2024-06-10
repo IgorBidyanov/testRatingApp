@@ -7,12 +7,14 @@ import MyButton from './UI/button/MyButton';
 import MyModal from './UI/modal/MyModal';
 import DeleteEmployer from './DeleteEmployer';
 import { IUpdateEmployersRatingPayload } from 'types/EmployersTypes';
+import Cookies from 'js-cookie';
 
 const EmployerProfile: React.FC = () => {
   const dispatch = useAppDispatch()
   const navigation = useNavigate() as NavigateFunction
 
   const { employer, employers } = useAppSelector(state => state.employers)
+  const token = Cookies.get('ratingAppToken')
   const { id } = useParams()
 
   const [deleteModalActive, setDeleteModalActive] = useState<boolean>(false)
@@ -40,7 +42,7 @@ const EmployerProfile: React.FC = () => {
   }
 
   const updateRatingEmployers = async () => {
-    if (employers && employer) {
+    if (employers && employer && token) {
       let payload: IUpdateEmployersRatingPayload = {}
       const filteredEmployers = employers.filter(person => (person.rating > employer.rating) && (person.id !== employer.id))
       
@@ -49,13 +51,13 @@ const EmployerProfile: React.FC = () => {
         payload[`${item.id}/rating`] = +item.rating - 1;
       }
 
-      await dispatch(updateEmployersRatingAction(payload)).then(() => navigation('/', { replace: true }))
+      await dispatch(updateEmployersRatingAction({ payload, token })).then(() => navigation('/', { replace: true }))
     }
   }
 
   const deleteEmployer = async () => {
-    if (employer) {
-      await dispatch(deleteEmployerAction(employer.id)).then(result => {
+    if (employer && token) {
+      await dispatch(deleteEmployerAction({ id: employer.id, token })).then(result => {
         if (result.meta.requestStatus === 'fulfilled') {
           updateRatingEmployers()
         }
@@ -64,8 +66,10 @@ const EmployerProfile: React.FC = () => {
   }
 
   useEffect(() => {
-    id && dispatch(getEmployerAction(id))
-  }, [id, dispatch])
+    if (id && token) {
+      dispatch(getEmployerAction({ id, token }))
+    }
+  }, [id, dispatch, token])
   
   return (
     <>

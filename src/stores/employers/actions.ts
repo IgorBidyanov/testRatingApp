@@ -22,10 +22,10 @@ export const getEmployersAction = createAsyncThunk(
 
 export const getEmployerAction = createAsyncThunk(
   'employers/getEmployerAction',
-  async (id: string) => {
+  async ({id, token}: {id: string, token: string}) => {
     try {
       const res: Record<string, IEmployer> = await $host.get(
-        `employers.json?orderBy="$key"&equalTo="${id}"`
+        `employers.json?auth=${token}&orderBy="$key"&equalTo="${id}"`
       ).then(result => {
         return result.data
       })
@@ -39,10 +39,10 @@ export const getEmployerAction = createAsyncThunk(
 
 export const addNewEmployerAction = createAsyncThunk(
   'employers/addNewEmployerAction',
-  async (newEmployer: IEmployerResponse) => {
+  async ({newEmployer, token}: {newEmployer: IEmployerResponse, token: string}) => {
     try {
       const res = await $host.post(
-      `employers.json`, newEmployer
+      `employers.json?auth=${token}`, newEmployer
       ).then(result => {
         return result.data
       })
@@ -56,10 +56,10 @@ export const addNewEmployerAction = createAsyncThunk(
 
 export const updateEmployersRatingAction = createAsyncThunk(
   'employers/updateEmployersRatingAction',
-  async (payload: IUpdateEmployersRatingPayload) => {
+  async ({payload, token}: {payload: IUpdateEmployersRatingPayload, token: string}) => {
     try {
       const res = await $host.patch(
-        `employers.json`, payload
+        `employers.json?auth=${token}`, payload
       ).then(result => {
         return result.data
       })
@@ -73,11 +73,11 @@ export const updateEmployersRatingAction = createAsyncThunk(
 
 export const updateEmployerAction = createAsyncThunk(
   'employers/updateEmployerAction',
-  async (payload: IUpdateEmployerPayload) => {
+  async ({payload, token}: {payload: IUpdateEmployerPayload, token: string}) => {
     const { createdEmployer, id } = payload
     try {
       const res = await $host.patch(
-        `employers/${id}.json`, createdEmployer
+        `employers/${id}.json?auth=${token}`, createdEmployer
       ).then(result => {
         return result.data
       })
@@ -91,10 +91,10 @@ export const updateEmployerAction = createAsyncThunk(
 
 export const deleteEmployerAction = createAsyncThunk(
   'employer/deleteEmployerAction',
-  async (id: string) => {
+  async ({id, token}: {id: string, token: string}) => {
     try {
       const res = await $host.delete(
-        `employers/${id}.json`
+        `employers/${id}.json?auth=${token}`
       ).then(result => result.data)
       return res
     }

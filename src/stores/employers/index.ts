@@ -54,7 +54,8 @@ export const employersSlice = createSlice({
       const employerTmp = { ...action.payload }
       let choosenEmployer
       for (let key in employerTmp) {
-        choosenEmployer = {  ...employerTmp[key], id: key }
+        const date = employerTmp[key].date_of_birth.split('-').reverse().join('.')
+        choosenEmployer = {  ...employerTmp[key], id: key, date_of_birth: date }
       }
       state.employer = choosenEmployer || null
       state.isLoading = false

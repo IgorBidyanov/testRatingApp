@@ -4,7 +4,7 @@ import { getAdminDataAction, refreshTokenAction } from "stores/auth/actions";
 
 const $host = (() => {
   return axios.create({
-    baseURL: 'https://ratingapp-11053-default-rtdb.europe-west1.firebasedatabase.app/',
+    baseURL: process.env.REACT_APP_BASE_URL,
     headers: { accept: 'application/json', 'Content-Type': 'application/json; charset=utf-8' },
   })
 })()

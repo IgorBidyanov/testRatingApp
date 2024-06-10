@@ -1,5 +1,6 @@
 import NewEmployerForm from 'components/NewEmployerForm';
 import BackBtn from 'components/UI/backBtn/BackBtn';
+import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getEmployerAction, getEmployersAction, updateEmployerAction, updateEmployersRatingAction } from 'stores/employers/actions';
@@ -13,10 +14,11 @@ const EditEmployerPage: React.FC = () => {
   const dispatch = useAppDispatch()
 
   const { employer, employers } = useAppSelector(state => state.employers)
+  const token = Cookies.get('ratingAppToken')
   const { id } = useParams()
 
   const updateRatingEmployers = async (newEmployer: INewEmployer) => {
-    if (employers && employer) {
+    if (employers && employer && token) {
       let payload: IUpdateEmployersRatingPayload = {}
       let filteredEmployers
       
@@ -36,13 +38,13 @@ const EditEmployerPage: React.FC = () => {
         }
       }
 
-      const isUpdateRating = await dispatch(updateEmployersRatingAction(payload))
+      const isUpdateRating = await dispatch(updateEmployersRatingAction({ payload, token }))
       return isUpdateRating.meta.requestStatus
     }
   }
 
   const editEmployer = async (newEmployer: INewEmployer) => {
-    if (employer) {
+    if (employer && token) {
       const full_name = (newEmployer.second_name[0].toUpperCase() + newEmployer.second_name.toLowerCase().slice(1)) + ' ' + (newEmployer.first_name[0].toUpperCase() + newEmployer.first_name.toLowerCase().slice(1)) + ' ' + (newEmployer.patronymic[0].toUpperCase() + newEmployer.patronymic.toLowerCase().slice(1))
       const tmpEmployer: Partial<IEmployerResponse> = {
         date_of_birth: newEmployer.date_of_birth,
@@ -58,7 +60,9 @@ const EditEmployerPage: React.FC = () => {
         }
       }
 
-      const isUpdateEmployer = await dispatch(updateEmployerAction({ createdEmployer: tmpEmployer, id: employer.id }))
+      const updateEmployerPayload = { createdEmployer: tmpEmployer, id: employer.id }
+
+      const isUpdateEmployer = await dispatch(updateEmployerAction({ payload: updateEmployerPayload, token }))
       if (isUpdateEmployer.meta.requestStatus === 'fulfilled' && employers && employer?.rating && employer.rating !== +newEmployer.rating) {
         const updateRating = await updateRatingEmployers(newEmployer)
         return updateRating
@@ -67,15 +71,18 @@ const EditEmployerPage: React.FC = () => {
   }
 
   useEffect(() => {
-    id && dispatch(getEmployerAction(id))
+    if (id && token) {
+      dispatch(getEmployerAction({ id, token }))
+    }
     dispatch(getEmployersAction())
-  }, [id, dispatch])
+  }, [id, dispatch, token])
 
   return (
     <>
       <NewEmployerForm
         employer={employer || undefined}
         onSubmitForm={editEmployer}
+        editEmployer
       />
 
       <BackBtn />

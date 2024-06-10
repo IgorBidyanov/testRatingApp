@@ -11,6 +11,7 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 interface IProps {
   employer?: IEmployer
   onSubmitForm: (val: INewEmployer) => Promise<string | undefined>
+  editEmployer? : boolean
 }
 
 type TNewEmployerKey = keyof INewEmployer
@@ -27,7 +28,7 @@ interface IFormErrors {
 
 type TFormErrorsKey = keyof IFormErrors
 
-const NewEmployerForm: React.FC<IProps> = ({ employer, onSubmitForm }) => {
+const NewEmployerForm: React.FC<IProps> = ({ employer, onSubmitForm, editEmployer }) => {
 
   const navigation = useNavigate() as NavigateFunction
   
@@ -76,8 +77,8 @@ const NewEmployerForm: React.FC<IProps> = ({ employer, onSubmitForm }) => {
   const departmentOptions: TDepartment[] = ['Отдел разработки', 'Отдел маркетинга', 'Отдел продаж', 'Отдел качества', 'Отдел поддержки']
   
   const ratingOptions = useMemo(() => {
-    return employers ? Array.from({ length: employers.length + 1 }, (_, index) => String(index + 1)) : ['1']
-  }, [employers]);
+    return employers ? Array.from({ length: editEmployer ? employers.length : employers.length + 1 }, (_, index) => String(index + 1)) : ['1']
+  }, [editEmployer, employers]);
 
   const checkForm = async (event: React.FormEvent) => {
     event.preventDefault()

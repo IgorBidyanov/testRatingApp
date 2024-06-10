@@ -1,5 +1,6 @@
 import NewEmployerForm from 'components/NewEmployerForm';
 import BackBtn from 'components/UI/backBtn/BackBtn';
+import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { addNewEmployerAction, getEmployersAction, updateEmployersRatingAction } from 'stores/employers/actions';
 import { useAppDispatch, useAppSelector } from 'stores/hooks';
@@ -9,9 +10,10 @@ const AddNewEmployerPage: React.FC = () => {
   const dispatch = useAppDispatch()
 
   const { employers } = useAppSelector(state => state.employers)
+  const token = Cookies.get('ratingAppToken')
 
   const updateRatingEmployers = async (newEmployer: INewEmployer) => {
-    if (employers) {
+    if (employers && token) {
       let payload: IUpdateEmployersRatingPayload = {}
       const filteredEmployers = employers.filter(employer => employer.rating >= +newEmployer.rating)
       
@@ -19,7 +21,8 @@ const AddNewEmployerPage: React.FC = () => {
         const item = filteredEmployers[i];
         payload[`${item.id}/rating`] = +item.rating + 1;
       }
-      const isUpdateRating = await dispatch(updateEmployersRatingAction(payload))
+
+      const isUpdateRating = await dispatch(updateEmployersRatingAction({ payload, token }))
       return isUpdateRating.meta.requestStatus
     }
   }
@@ -34,7 +37,7 @@ const AddNewEmployerPage: React.FC = () => {
       rating: +newEmployer.rating
     }
 
-    const isAddedEmployer = await dispatch(addNewEmployerAction(createdEmployer))
+    const isAddedEmployer = await dispatch(addNewEmployerAction({ newEmployer: createdEmployer, token: token ?? '' }))
     if (isAddedEmployer.meta.requestStatus === 'fulfilled' && employers?.length && +newEmployer.rating <= employers?.length) {
       const updateRating = await updateRatingEmployers(newEmployer)
       return updateRating
